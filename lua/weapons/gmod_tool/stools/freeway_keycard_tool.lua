@@ -80,68 +80,71 @@ end --[[ if (CLIENT) then ]]--
 
 --  add access
 function TOOL:LeftClick( tr )
-	local ply = self:GetOwner()
-	if ply.freeway_keycard_tool_last_use == nil then ply.freeway_keycard_tool_last_use = 0 end
-	if ply.freeway_keycard_tool_last_use > CurTime() then return false end
-	ply.freeway_keycard_tool_last_use = CurTime() + 0.1
+	if CLIENT then
+		local ply = self:GetOwner()
+		if ply.freeway_keycard_tool_last_use == nil then ply.freeway_keycard_tool_last_use = 0 end
+		if ply.freeway_keycard_tool_last_use > CurTime() then return false end
+		ply.freeway_keycard_tool_last_use = CurTime() + 0.1
 
-	--  check compatible entity
-	local ent = tr.Entity
-	if not IsValid( ent ) or not freeway.keycard.keycard_available_classes[ent:GetClass()] then return false end
+		--  check compatible entity
+		local ent = tr.Entity
+		if not IsValid( ent ) or not freeway.keycard.keycard_available_classes[ent:GetClass()] then return false end
 
-	local data = {}
-	data = {}
-	for k, v in pairs( freeway.keycard.levels ) do
-		data[k] = GetConVar("freeway_keycard_tool_" .. k):GetInt()
+		local data = {}
+		for k, v in pairs( freeway.keycard.levels ) do
+			data[k] = GetConVar("freeway_keycard_tool_" .. k):GetInt()
+		end
+
+		net.Start( "freeway_keycard_set_access" )
+			net.WriteEntity( ent )
+			net.WriteTable( data )
+		net.SendToServer()
 	end
-
-	net.Start( "freeway_keycard_set_access" )
-		net.WriteEntity( ent )
-		net.WriteTable( data )
-	net.SendToServer()
-	
 	return true
 end
 
 --  remove access
 function TOOL:RightClick( tr )
-	local ply = self:GetOwner()
-	if ply.freeway_keycard_tool_last_use == nil then ply.freeway_keycard_tool_last_use = 0 end
-	if ply.freeway_keycard_tool_last_use > CurTime() then return false end
-	ply.freeway_keycard_tool_last_use = CurTime() + 0.1
+	if CLIENT then
+		local ply = self:GetOwner()
+		if ply.freeway_keycard_tool_last_use == nil then ply.freeway_keycard_tool_last_use = 0 end
+		if ply.freeway_keycard_tool_last_use > CurTime() then return false end
+		ply.freeway_keycard_tool_last_use = CurTime() + 0.1
 
-	--  check compatible entity
-	local ent = ply:GetUseEntity()
-	if not IsValid( ent ) or not freeway.keycard.keycard_available_classes[ent:GetClass()] then return false end
+		--  check compatible entity
+		local ent = ply:GetUseEntity()
+		if not IsValid( ent ) or not freeway.keycard.keycard_available_classes[ent:GetClass()] then return false end
 
-	net.Start( "freeway_keycard_set_access" )
-		net.WriteEntity( ent )
-		net.WriteTable( {} )
-	net.SendToServer()
-	ply:ChatPrint( "The looked entity's data has been erased!" )
-
+		net.Start( "freeway_keycard_set_access" )
+			net.WriteEntity( ent )
+			net.WriteTable( {} )
+		net.SendToServer()
+		ply:ChatPrint( "The looked entity's data has been erased!" )
+	end
 	return true
 end
 
 function TOOL:Reload( tr )
-	local ply = self:GetOwner()
-	if ply.freeway_keycard_tool_last_use == nil then ply.freeway_keycard_tool_last_use = 0 end
-	if ply.freeway_keycard_tool_last_use > CurTime() then return false end
-	ply.freeway_keycard_tool_last_use = CurTime() + 0.1
-
-	--  check compatible entity
-	local ent = ply:GetUseEntity()
-	if not IsValid( ent ) or not freeway.keycard.keycard_available_classes[ent:GetClass()] then return false end
-
 	if CLIENT then
-		local ent_id = ent:MapCreationID()
-		if freeway.keycard.savedata[ent_id] != nil and not table.IsEmpty(freeway.keycard.savedata[ent_id]) then
-			for k, v in pairs( freeway.keycard.levels ) do
-				GetConVar("freeway_keycard_tool_" .. k):SetInt( freeway.keycard.savedata[ent_id][k] || 0 )
+		local ply = self:GetOwner()
+		if ply.freeway_keycard_tool_last_use == nil then ply.freeway_keycard_tool_last_use = 0 end
+		if ply.freeway_keycard_tool_last_use > CurTime() then return false end
+		ply.freeway_keycard_tool_last_use = CurTime() + 0.1
+
+		--  check compatible entity
+		local ent = ply:GetUseEntity()
+		if not IsValid( ent ) or not freeway.keycard.keycard_available_classes[ent:GetClass()] then return false end
+
+		if CLIENT then
+			local ent_id = ent:MapCreationID()
+			if freeway.keycard.savedata[ent_id] != nil and not table.IsEmpty(freeway.keycard.savedata[ent_id]) then
+				for k, v in pairs( freeway.keycard.levels ) do
+					GetConVar("freeway_keycard_tool_" .. k):SetInt( freeway.keycard.savedata[ent_id][k] || 0 )
+				end
+				ply:ChatPrint( "The looked entity's data was copied!" )
+			else
+				ply:ChatPrint( "The looked entity has no data!" )
 			end
-			ply:ChatPrint( "The looked entity's data was copied!" )
-		else
-			ply:ChatPrint( "The looked entity has no data!" )
 		end
 	end
 

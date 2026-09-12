@@ -83,21 +83,21 @@ function freeway.keycard.save_ent(ent, data)
 	net.Broadcast()
 
 	file.CreateDir( "freeway_keycard/" )
-	local f = file.Open("freeway_keycard/" .. game.GetMap() .. ".json.txt", "w", "DATA")
+	local f = file.Open("freeway_keycard/" .. game.GetMap() .. ".json", "w", "DATA")
 	f:Write(util.TableToJSON(compress_table(), true))
 	f:Close()
 end
 
 function freeway.keycard.load_data()
-	if not file.Exists("freeway_keycard/" .. game.GetMap() .. ".json.txt", "DATA") then return end
-	local f = file.Open("freeway_keycard/" .. game.GetMap() .. ".json.txt", "r", "DATA")
+	if not file.Exists("freeway_keycard/" .. game.GetMap() .. ".json", "DATA") then return end
+	local f = file.Open("freeway_keycard/" .. game.GetMap() .. ".json", "r", "DATA")
 	freeway.keycard.savedata = util.JSONToTable(f:Read())
 	f:Close()
 
 	for k, v in pairs(freeway.keycard.savedata) do
 		local ent = ents.GetMapCreatedEntity(k)
 		if IsValid(ent) and ent.keycard_data == nil then
-			//print("Loading keycard data for " .. ent:GetClass() .. " " .. k)
+			--print("Loading keycard data for " .. ent:GetClass() .. " " .. k)
 			ent.keycard_data = v
 		end
 	end
@@ -133,10 +133,10 @@ hook.Add("PlayerUse", "freeway_keycard_use", function(ply, ent)
 	end
 	
 	if access_granted then
-		// print("Access granted")
+		-- print("Access granted")
 		ent:EmitSound("buttons/button14.wav")
 	else
-		// print("Access denied")
+		-- print("Access denied")
 		ent:EmitSound("buttons/button18.wav")
 	end
 	swep.last_used = CurTime()

@@ -1,9 +1,9 @@
 AddCSLuaFile()
 
-local name = "ISD"
+local name = "Sience"
 SWEP.Base = "freeway_keycard_base"
 
-SWEP.PrintName 				= name .. " Keycard"
+SWEP.PrintName 				= name .. " Keycard 4"
 SWEP.Author					= "Jonas🍉"
 SWEP.Purpose				= ""
 SWEP.Category               = "Freeway Keycards"
@@ -16,11 +16,10 @@ SWEP.AdminSpawnable			= true
 SWEP.IsBiometric = true
 
 SWEP.Access = {
-    [name] = 1,
-    ["Management"] = 2
+    [name] = 4,
 }
 
-local SKIN = 39
+local SKIN = 16
 
 SWEP.v_model = "models/freeway/keycards/keycard.mdl"
 SWEP.w_model = "models/freeway/keycards/keycard.mdl"
@@ -50,20 +49,3 @@ SWEP.GuthSCPRenderer = {
         },
     },
 }
-
-function SWEP:Reload()
-    self.NextReload = self.NextReload or 0
-    if CurTime() < self.NextReload then return end
-    self.NextReload = CurTime() + 0.3
-    local MAX_SKINS = 4
-    local SKIN = self.GuthSCPRenderer.world_model.skin + 1
-    if SKIN > MAX_SKINS then
-        SKIN = 0
-    end
-    self.GuthSCPRenderer.world_model.skin = SKIN
-    self.GuthSCPRenderer.view_model.skin = SKIN
-    if CLIENT then
-        surface.PlaySound("hl1/fvox/fuzz.wav")
-    end
-    self:run_init()
-end

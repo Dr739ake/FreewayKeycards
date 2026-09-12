@@ -205,7 +205,7 @@ local function table_FullCopy( tab )
 	local res = {}
 	for k, v in pairs( tab ) do
 		if (type(v) == "table") then
-			res[k] = table_FullCopy(v) // recursion ho!
+			res[k] = table_FullCopy(v) -- recursion ho!
 		elseif (type(v) == "Vector") then
 			res[k] = Vector(v.x, v.y, v.z)
 		elseif (type(v) == "Angle") then
@@ -322,7 +322,7 @@ if CLIENT then
 
 		if (!self.vRenderOrder) then
 
-			// we build a render order because sprites need to be drawn after models
+			-- we build a render order because sprites need to be drawn after models
 			self.vRenderOrder = {}
 
 			for k, v in pairs( self.VElements ) do
@@ -358,7 +358,7 @@ if CLIENT then
 				ang:RotateAroundAxis(ang:Forward(), v.angle.r)
 
 				model:SetAngles(ang)
-				//model:SetModelScale(v.size)
+				--model:SetModelScale(v.size)
 				local matrix = Matrix()
 				matrix:Scale(v.size)
 				model:EnableMatrix( "RenderMultiply", matrix )
@@ -448,7 +448,7 @@ if CLIENT then
 		if (IsValid(self:GetOwner())) then
 			bone_ent = self:GetOwner()
 		else
-			// when the weapon is dropped
+			-- when the weapon is dropped
 			bone_ent = self
 		end
 
@@ -479,7 +479,7 @@ if CLIENT then
 				ang:RotateAroundAxis(ang:Forward(), v.angle.r)
 
 				model:SetAngles(ang)
-				//model:SetModelScale(v.size)
+				--model:SetModelScale(v.size)
 				local matrix = Matrix()
 				matrix:Scale(v.size)
 				model:EnableMatrix( "RenderMultiply", matrix )
@@ -548,8 +548,8 @@ if CLIENT then
 
 			if (!v) then return end
 
-			// Technically, if there exists an element with the same name as a bone
-			// you can get in an infinite loop. Let's just hope nobody's that stupid.
+			-- Technically, if there exists an element with the same name as a bone
+			-- you can get in an infinite loop. Let's just hope nobody's that stupid.
 			pos, ang = self:GetBoneOrientation( basetab, v, ent )
 
 			if (!pos) then return end
@@ -573,7 +573,7 @@ if CLIENT then
 
 			if (IsValid(self:GetOwner()) and self:GetOwner():IsPlayer() and
 				ent == self:GetOwner():GetViewModel() and self.ViewModelFlip) then
-				ang.r = -ang.r // Fixes mirrored models
+				ang.r = -ang.r -- Fixes mirrored models
 			end
 
 		end
@@ -606,7 +606,7 @@ if CLIENT then
 
 				local name = v.sprite.."-"
 				local params = { ["$basetexture"] = v.sprite }
-				// make sure we create a unique name based on the selected options
+				-- make sure we create a unique name based on the selected options
 				local tocheck = { "nocull", "additive", "vertexalpha", "vertexcolor", "ignorez" }
 				for i, j in pairs( tocheck ) do
 					if (v[j]) then
@@ -634,8 +634,8 @@ if CLIENT then
 
 			if (!vm:GetBoneCount()) then return end
 
-			// !! WORKAROUND !! //
-			// We need to check all model names :/
+			-- !! WORKAROUND !! --
+			-- We need to check all model names :/
 			local loopthrough = self.ViewModelBoneMods
 			if (!hasGarryFixedBoneScalingYet) then
 				allbones = {}
@@ -654,13 +654,13 @@ if CLIENT then
 
 				loopthrough = allbones
 			end
-			// !! ----------- !! //
+			-- !! ----------- !! --
 
 			for k, v in pairs( loopthrough ) do
 				local bone = vm:LookupBone(k)
 				if (!bone) then continue end
 
-				// !! WORKAROUND !! //
+				-- !! WORKAROUND !! --
 				local s = Vector(v.scale.x,v.scale.y,v.scale.z)
 				local p = Vector(v.pos.x,v.pos.y,v.pos.z)
 				local ms = Vector(1,1,1)
@@ -674,7 +674,7 @@ if CLIENT then
 				end
 
 				s = s * ms
-				// !! ----------- !! //
+				-- !! ----------- !! --
 
 				if vm:GetManipulateBoneScale(bone) != s then
 					vm:ManipulateBoneScale( bone, s )

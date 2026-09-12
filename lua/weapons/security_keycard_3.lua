@@ -1,6 +1,6 @@
 AddCSLuaFile()
 
-local name = "Medic"
+local name = "Security"
 SWEP.Base = "freeway_keycard_base"
 
 SWEP.PrintName 				= name .. " Keycard 3"
@@ -16,10 +16,9 @@ SWEP.AdminSpawnable			= true
 
 SWEP.Access = {
     [name] = 3,
-    ["MTF"] = 2
 }
 
-local SKIN = 23
+local SKIN = 11
 
 SWEP.v_model = "models/freeway/keycards/keycard.mdl"
 SWEP.w_model = "models/freeway/keycards/keycard.mdl"

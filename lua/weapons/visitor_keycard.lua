@@ -1,6 +1,6 @@
 AddCSLuaFile()
 
-local name = "Besucher"
+local name = "Visitor"
 SWEP.Base = "freeway_keycard_base"
 
 SWEP.PrintName 				= name .. " Keycard"

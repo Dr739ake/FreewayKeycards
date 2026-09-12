@@ -1,6 +1,6 @@
 AddCSLuaFile()
 
-local name = "Wissenschaftler"
+local name = "Security"
 SWEP.Base = "freeway_keycard_base"
 
 SWEP.PrintName 				= name .. " Keycard 4"
@@ -19,7 +19,7 @@ SWEP.Access = {
     [name] = 4,
 }
 
-local SKIN = 16
+local SKIN = 12
 
 SWEP.v_model = "models/freeway/keycards/keycard.mdl"
 SWEP.w_model = "models/freeway/keycards/keycard.mdl"

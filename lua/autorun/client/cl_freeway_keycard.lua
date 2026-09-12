@@ -48,8 +48,25 @@ hook.Add("HUDPaint", "freeway_keycard_draw", function()
 
                 local x, y = ScrW() / 2, ScrH() / 2 + 60 or ScrH() / 2 + 20
 
-                draw.DrawNonParsedText(freeway.keycard.keycard_required_text, "freeway_keycard_font", x + 1, y + 1, Color(0, 0, 0, 255), 1)
-                draw.DrawNonParsedText(freeway.keycard.keycard_required_text, "freeway_keycard_font", x, y, color, 1)
+                draw.SimpleText(
+                    freeway.keycard.keycard_required_text,
+                    "freeway_keycard_font",
+                    ScrW() / 2 + 1,
+                    ScrH() / 2 + 61,
+                    Color(0, 0, 0, 255),
+                    TEXT_ALIGN_CENTER,
+                    TEXT_ALIGN_CENTER
+                )
+
+                draw.SimpleText(
+                    freeway.keycard.keycard_required_text,
+                    "freeway_keycard_font",
+                    ScrW() / 2,
+                    ScrH() / 2 + 60,
+                    color,
+                    TEXT_ALIGN_CENTER,
+                    TEXT_ALIGN_CENTER
+                )
             end
         end
     end
